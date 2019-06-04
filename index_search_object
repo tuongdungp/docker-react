@@ -1,0 +1,455 @@
+[
+  'settings' => 
+  [
+    'similarity' => 
+    [
+      'my_bm25' => 
+      [
+        'type' => 'BM25',
+        'b' => 0,
+      ],
+    ],
+    'index' => 
+    [
+      'analysis' => 
+      [
+        'analyzer' => 
+        [
+          'akt_analyzer_exact_en' => 
+          [
+            'tokenizer' => 'keyword',
+            'filter' => 
+            [
+              0 => 'lowercase',
+              1 => 'asciifolding',
+              2 => 'trim',
+            ],
+          ],
+          'akt_analyzer_standard_en' => 
+          [
+            'tokenizer' => 'standard',
+            'filter' => 
+            [
+              0 => 'synonym_en',
+              1 => 'spell_en_US',
+              2 => 'lowercase',
+              3 => 'asciifolding',
+              4 => 'trim',
+            ],
+          ],
+          'akt_analyzer_pattern_en' => 
+          [
+            'tokenizer' => 'akt_pattern_tokernizer_en',
+            'filter' => 
+            [
+              0 => 'synonym_en',
+              1 => 'spell_en_US',
+              2 => 'lowercase',
+              3 => 'asciifolding',
+              4 => 'trim',
+            ],
+          ],
+          'akt_potential_type_en' => 
+          [
+            'tokenizer' => 'akt_potential_type_en',
+            'filter' => 
+            [
+              0 => 'lowercase',
+              1 => 'asciifolding',
+              2 => 'trim',
+            ],
+          ],
+          'romaji_analyzer' => 
+          [
+            'tokenizer' => 'kuromoji_tokenizer',
+            'filter' => 
+            [
+              0 => 'romaji_readingform',
+            ],
+          ],
+          'katakana_analyzer' => 
+          [
+            'tokenizer' => 'kuromoji_tokenizer',
+            'filter' => 
+            [
+              0 => 'katakana_readingform',
+            ],
+          ],
+          'akt_analyzer_exact_ja' => 
+          [
+            'tokenizer' => 'keyword',
+            'filter' => 
+            [
+              0 => 'trim',
+            ],
+          ],
+          'akt_analyzer_standard_ja' => 
+          [
+            'tokenizer' => 'kuromoji_tokenizer',
+            'filter' => 
+            [
+              0 => 'trim',
+              1 => 'katakana_readingform',
+            ],
+          ],
+          'akt_analyzer_pattern_ja' => 
+          [
+            'tokenizer' => 'akt_pattern_tokernizer_ja',
+            'filter' => 
+            [
+              0 => 'trim',
+            ],
+          ],
+          'akt_potential_type_ja' => 
+          [
+            'tokenizer' => 'akt_potential_type_ja',
+            'filter' => 
+            [
+              0 => 'trim',
+            ],
+          ],
+        ],
+        'tokenizer' => 
+        [
+          'edge_ngram_tokenizer' => 
+          [
+            'type' => 'edge_ngram',
+            'min_gram' => 2,
+            'max_gram' => 5,
+            'token_chars' => 
+            [
+              0 => 'letter',
+            ],
+          ],
+          'akt_pattern_tokernizer_en' => 
+          [
+            'type' => 'pattern',
+            'pattern' => '(hotel|hostel|astotel|motel|restaurant|bar|museum|cafe|café|coffee|bakery|baker|pizzeria|pizza|^bake|bake$|cake|cuisine|food|bridge|stadium|moutain|beach|park|chocolat|salon|kitchen|boutique|resort|villa|bakery|cathedral|church|bank|airport|garden|spa$|^spa|^opera|opera$|station|studio|dessert|cuisine|cook|grill|steak| |,|-|_|&]',
+          ],
+          'akt_potential_type_en' => 
+          [
+            'type' => 'pattern',
+            'pattern' => '(hotel|hostel|astotel|motel|restaurant|bar|museum|cafe|café|coffee|bakery|baker|pizzeria|pizza|^bake|bake$|cake|cuisine|food|bridge|stadium|moutain|beach|park|chocolat|salon|kitchen|boutique|resort|villa|bakery|cathedral|church|bank|airport|garden|spa$|^spa|^opera|opera$|station|studio|dessert|cuisine|cook|grill|steak]',
+            'flags' => 'CASE_INSENSITIVE',
+            'group' => 1,
+          ],
+          'akt_pattern_tokernizer_ja' => 
+          [
+            'type' => 'pattern',
+            'pattern' => '(hotel|hostel|astotel|motel|restaurant|bar|museum|cafe|café|coffee|bakery|baker|pizzeria|pizza|^bake|bake$|cake|cuisine|food|bridge|stadium|moutain|beach|park|chocolat|salon|kitchen|boutique|resort|villa|bakery|cathedral|church|bank|airport|garden|spa$|^spa|^opera|opera$|station|studio|dessert|cuisine|cook|grill|steak| |,|-|_|&]',
+          ],
+          'akt_potential_type_ja' => 
+          [
+            'type' => 'pattern',
+            'pattern' => '(hotel|hostel|astotel|motel|restaurant|bar|museum|cafe|café|coffee|bakery|baker|pizzeria|pizza|^bake|bake$|cake|cuisine|food|bridge|stadium|moutain|beach|park|chocolat|salon|kitchen|boutique|resort|villa|bakery|cathedral|church|bank|airport|garden|spa$|^spa|^opera|opera$|station|studio|dessert|cuisine|cook|grill|steak]',
+            'flags' => 'CASE_INSENSITIVE',
+            'group' => 1,
+          ],
+        ],
+        'filter' => 
+        [
+          'romaji_readingform' => 
+          [
+            'type' => 'kuromoji_readingform',
+            'use_romaji' => true,
+          ],
+          'katakana_readingform' => 
+          [
+            'type' => 'kuromoji_readingform',
+            'use_romaji' => false,
+          ],
+          'synonym_en' => 
+          [
+            'type' => 'synonym',
+            'synonyms_path' => 'analysis/en_synonyms.txt',
+          ],
+          'spell_en_US' => 
+          [
+            'type' => 'hunspell',
+            'language' => 'en_US',
+          ],
+        ],
+      ],
+    ],
+  ],
+  'mappings' => 
+  [
+    '_doc' => 
+    [
+      'properties' => 
+      [
+        'continent' => 
+        [
+          'type' => 'text',
+          'analyzer' => 'keyword',
+        ],
+        'country' => 
+        [
+          'type' => 'text',
+          'analyzer' => 'keyword',
+        ],
+        'region' => 
+        [
+          'type' => 'text',
+          'analyzer' => 'keyword',
+        ],
+        'sub_region' => 
+        [
+          'type' => 'text',
+          'analyzer' => 'keyword',
+        ],
+        'tourism_region' => 
+        [
+          'type' => 'text',
+          'analyzer' => 'keyword',
+        ],
+        'city' => 
+        [
+          'type' => 'text',
+          'analyzer' => 'keyword',
+        ],
+        'name_en' => 
+        [
+          'type' => 'text',
+          'analyzer' => 'akt_analyzer_exact_en',
+          'fields' => 
+          [
+            'standard_tokenizer' => 
+            [
+              'type' => 'text',
+              'similarity' => 'my_bm25',
+              'analyzer' => 'akt_analyzer_standard_en',
+              'fields' => 
+              [
+                'length' => 
+                [
+                  'type' => 'token_count',
+                  'analyzer' => 'akt_analyzer_standard_en',
+                ],
+              ],
+            ],
+            'pattern_tokenizer' => 
+            [
+              'type' => 'text',
+              'similarity' => 'my_bm25',
+              'analyzer' => 'akt_analyzer_pattern_en',
+              'fields' => 
+              [
+                'length' => 
+                [
+                  'type' => 'token_count',
+                  'analyzer' => 'akt_analyzer_pattern_en',
+                ],
+              ],
+            ],
+            'potential_types' => 
+            [
+              'type' => 'text',
+              'analyzer' => 'akt_potential_type_en',
+              'fielddata' => true,
+            ],
+          ],
+        ],
+        'name_ja' => 
+        [
+          'type' => 'text',
+          'analyzer' => 'akt_analyzer_exact_ja',
+          'fields' => 
+          [
+            'standard_tokenizer' => 
+            [
+              'type' => 'text',
+              'similarity' => 'my_bm25',
+              'analyzer' => 'akt_analyzer_standard_ja',
+              'fields' => 
+              [
+                'length' => 
+                [
+                  'type' => 'token_count',
+                  'analyzer' => 'akt_analyzer_standard_ja',
+                ],
+              ],
+            ],
+            'pattern_tokenizer' => 
+            [
+              'type' => 'text',
+              'similarity' => 'my_bm25',
+              'analyzer' => 'akt_analyzer_pattern_ja',
+              'fields' => 
+              [
+                'length' => 
+                [
+                  'type' => 'token_count',
+                  'analyzer' => 'akt_analyzer_pattern_ja',
+                ],
+              ],
+            ],
+            'potential_types' => 
+            [
+              'type' => 'text',
+              'analyzer' => 'akt_potential_type_ja',
+              'fielddata' => true,
+            ],
+          ],
+        ],
+        'type' => 
+        [
+          'type' => 'text',
+          'analyzer' => 'keyword',
+        ],
+        'sub_type' => 
+        [
+          'type' => 'text',
+          'analyzer' => 'keyword',
+        ],
+        'style' => 
+        [
+          'type' => 'text',
+          'analyzer' => 'keyword',
+        ],
+        'aka' => 
+        [
+          'type' => 'nested',
+          'properties' => 
+          [
+            'name_en' => 
+            [
+              'type' => 'text',
+              'analyzer' => 'akt_analyzer_exact_en',
+              'fields' => 
+              [
+                'standard_tokenizer' => 
+                [
+                  'type' => 'text',
+                  'similarity' => 'my_bm25',
+                  'analyzer' => 'akt_analyzer_standard_en',
+                  'fields' => 
+                  [
+                    'length' => 
+                    [
+                      'type' => 'token_count',
+                      'analyzer' => 'akt_analyzer_standard_en',
+                    ],
+                  ],
+                ],
+                'pattern_tokenizer' => 
+                [
+                  'type' => 'text',
+                  'similarity' => 'my_bm25',
+                  'analyzer' => 'akt_analyzer_pattern_en',
+                  'fields' => 
+                  [
+                    'length' => 
+                    [
+                      'type' => 'token_count',
+                      'analyzer' => 'akt_analyzer_pattern_en',
+                    ],
+                  ],
+                ],
+                'potential_types' => 
+                [
+                  'type' => 'text',
+                  'analyzer' => 'akt_potential_type_en',
+                  'fielddata' => true,
+                ],
+              ],
+            ],
+            'name_ja' => 
+            [
+              'type' => 'text',
+              'analyzer' => 'akt_analyzer_exact_ja',
+              'fields' => 
+              [
+                'standard_tokenizer' => 
+                [
+                  'type' => 'text',
+                  'similarity' => 'my_bm25',
+                  'analyzer' => 'akt_analyzer_standard_ja',
+                  'fields' => 
+                  [
+                    'length' => 
+                    [
+                      'type' => 'token_count',
+                      'analyzer' => 'akt_analyzer_standard_ja',
+                    ],
+                  ],
+                ],
+                'pattern_tokenizer' => 
+                [
+                  'type' => 'text',
+                  'similarity' => 'my_bm25',
+                  'analyzer' => 'akt_analyzer_pattern_ja',
+                  'fields' => 
+                  [
+                    'length' => 
+                    [
+                      'type' => 'token_count',
+                      'analyzer' => 'akt_analyzer_pattern_ja',
+                    ],
+                  ],
+                ],
+                'potential_types' => 
+                [
+                  'type' => 'text',
+                  'analyzer' => 'akt_potential_type_ja',
+                  'fielddata' => true,
+                ],
+              ],
+            ],
+          ],
+        ],
+        'phrases' => 
+        [
+          'type' => 'nested',
+          'properties' => 
+          [
+            'value_en' => 
+            [
+              'type' => 'text',
+              'analyzer' => 'akt_analyzer_standard_en',
+            ],
+            'value_ja' => 
+            [
+              'type' => 'text',
+              'analyzer' => 'akt_analyzer_standard_ja',
+            ],
+            'element_words' => 
+            [
+              'type' => 'nested',
+              'properties' => 
+              [
+                'value_en' => 
+                [
+                  'type' => 'text',
+                  'analyzer' => 'akt_analyzer_exact_en',
+                ],
+                'value_ja' => 
+                [
+                  'type' => 'text',
+                  'analyzer' => 'akt_analyzer_exact_ja',
+                ],
+              ],
+            ],
+          ],
+        ],
+        'things_to_do' => 
+        [
+          'type' => 'nested',
+          'properties' => 
+          [
+            'value_en' => 
+            [
+              'type' => 'text',
+              'analyzer' => 'akt_analyzer_exact_en',
+            ],
+            'value_ja' => 
+            [
+              'type' => 'text',
+              'analyzer' => 'akt_analyzer_exact_ja',
+            ],
+          ],
+        ],
+      ],
+    ],
+  ],
+]
